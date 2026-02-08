@@ -3,6 +3,7 @@
 
 <head>
   <title>Tasks</title>
+  <link rel="stylesheet" href="css/styles.css">
 </head>
 
 <body>
@@ -21,7 +22,12 @@
   </header>
 
   <h2>Your Study Tasks</h2>
+  <input type="text" id="taskInput" placeholder="Enter a task">
+  <button onclick="addTask()">Add Task</button>
 
+  <ul id="taskList">
+    <li>📚 Math homework</li>
+  </ul>
   <ul>
     <li>📚 Math homework</li>
     <li>🧪 Science revision</li>
@@ -32,6 +38,7 @@
     <button>← Back to Homepage</button>
   </a>
 
+  <script src="js/tasks.js"></script>
 </body>
 
 </html>
