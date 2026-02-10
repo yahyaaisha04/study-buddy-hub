@@ -2,29 +2,28 @@ const taskInput = document.getElementById("taskInput");
 const addTaskBtn = document.getElementById("addTaskBtn");
 const taskList = document.getElementById("taskList");
 
-// Load tasks from localStorage
-let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+addTaskBtn.addEventListener("click", addTask);
 
-// Display tasks
-function renderTasks() {
-    taskList.innerHTML = "";
-    tasks.forEach((task) => {
-        const li = document.createElement("li");
-        li.textContent = task;
-        taskList.appendChild(li);
-    });
-}
-
-// Add new task
-addTaskBtn.addEventListener("click", () => {
+function addTask() {
     const taskText = taskInput.value.trim();
-    if (taskText === "") return;
 
-    tasks.push(taskText);
-    localStorage.setItem("tasks", JSON.stringify(tasks));
+    if (taskText === "") {
+        alert("Please enter a task!");
+        return;
+    }
+
+    const li = document.createElement("li");
+    li.textContent = taskText + " ";
+
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = " X ";
+
+    deleteBtn.addEventListener("click", function () {
+        li.remove();
+    });
+
+    li.appendChild(deleteBtn);
+    taskList.appendChild(li);
+
     taskInput.value = "";
-    renderTasks();
-});
-
-// Initial render
-renderTasks();
+}
