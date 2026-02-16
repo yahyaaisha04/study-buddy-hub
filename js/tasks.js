@@ -19,9 +19,20 @@ function addTask() {
     taskInput.value = "";
 }
 
-function createTask(taskText) {
+function createTask(taskText, isCompleted = false) {
     const li = document.createElement("li");
-    li.textContent = taskText + " ";
+
+    if (isCompleted) {
+        li.classList.add("completed");
+    }
+
+    const span = document.createElement("span");
+    span.textContent = taskText;
+
+    span.addEventListener("click", function () {
+        li.classList.toggle("completed");
+        updateTaskStatus(taskText, li.classList.contains("completed"));
+    });
 
     const deleteBtn = document.createElement("button");
     deleteBtn.textContent = "❌";
@@ -31,23 +42,38 @@ function createTask(taskText) {
         removeTask(taskText);
     });
 
+    li.appendChild(span);
     li.appendChild(deleteBtn);
     taskList.appendChild(li);
 }
 
+
+
+
 function saveTask(taskText) {
     let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-    tasks.push(taskText);
+    tasks.push({ text: taskText, completed: false });
     localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
 function loadTasks() {
     let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-    tasks.forEach(createTask);
+    tasks.forEach(task => createTask(task.text, task.completed));
 }
 
 function removeTask(taskText) {
     let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-    tasks = tasks.filter(task => task !== taskText);
+    tasks = tasks.filter(task => task.text !== taskText);
     localStorage.setItem("tasks", JSON.stringify(tasks));
 }
+
+function updateTaskStatus(taskText, isCompleted) {
+    let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+    tasks = tasks.map(task =>
+        task.text === taskText
+            ? { ...task, completed: isCompleted }
+            : task
+    );
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+
