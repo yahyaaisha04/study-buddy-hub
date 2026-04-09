@@ -15,7 +15,7 @@
       <a href="homepage.html">Home</a> |
       <a href="tasks.html">Tasks</a> |
       <a href="courses.html">Courses</a> |
-      <a href="index.html">Logout</a>
+      <button id="logoutBtn">Logout</button>
     </nav>
 
     <hr>
@@ -29,9 +29,31 @@
   <br><br>
 
   <a href="courses.html"><button>Courses</button></a>
-  <br><br>
 
-  <a href="index.html"><button>Logout</button></a>
+  <!-- ✅ SCRIPT GOES HERE -->
+  <script type="module">
+    import { auth } from "./js/firebase-config.js";
+    import {
+      onAuthStateChanged,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    logoutBtn.addEventListener("click", async () => {
+      await signOut(auth);
+      alert("Logged out successfully");
+      window.location.href = "index.html";
+    });
+
+    onAuthStateChanged(auth, (user) => {
+      console.log("Auth state:", user);
+
+      if (!user) {
+        window.location.href = "index.html";
+      }
+    });
+  </script>
 
 </body>
 

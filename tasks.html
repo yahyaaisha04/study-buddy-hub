@@ -36,6 +36,24 @@
   </a>
 
   <script src="js/tasks.js"></script>
+
+
+
+  <script type="module">
+    import { auth } from "./js/firebase-config.js";
+    import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        window.location.href = "index.html";
+      }
+    });
+  </script>
+
+
+
+
+
 </body>
 
 </html>
